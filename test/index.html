@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+$(document).ready(function() {
+    var socket = io.connect('http://127.0.0.1:8000')
+
+    socket.on("connect", () => {
+        console.log(socket.id);
+        socket.emit('teste', {'id':socket.id})
+    });
+    socket.on('teste', (message) => {
+        console.log(message);
+    });
+})
+        </script>
+    </body>
+</html>
