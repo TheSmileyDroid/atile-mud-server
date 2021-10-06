@@ -35,8 +35,8 @@ def post_user():
         db.session.commit()
         result = user_schema.dump(user)
         return jsonify({'message': 'Criado com sucesso', 'data': result}), 201
-    except:
-        return jsonify({'message': 'Não foi possível criar o usuário', 'data': {}}), 500
+    except Exception as e:
+        return jsonify({'message': 'Não foi possível criar o usuário', 'data': {}, 'error': str(e)}), 500
 
 def update_user(id):
     email = request.json['email']
@@ -55,8 +55,8 @@ def update_user(id):
         db.session.commit()
         result = user_schema.dump(user)
         return jsonify({'message': 'Atualizado com sucesso', 'data': result}), 201
-    except:
-        return jsonify({'message': 'Não foi possível atualizar o usuário', 'data': {}}), 500
+    except Exception as e:
+        return jsonify({'message': 'Não foi possível atualizar o usuário', 'data': {}, 'error': str(e)}), 500
 
 def delete_user(id):
     user = User.query.get(id)
@@ -69,5 +69,5 @@ def delete_user(id):
         db.session.commit()
         result = user_schema.dump(user)
         return jsonify({'message': 'Usuário deletado com sucesso', 'data': result}), 201
-    except:
-        return jsonify({'message': 'Não foi possível deletar o usuário', 'data': {}}), 500
+    except Exception as e:
+        return jsonify({'message': 'Não foi possível deletar o usuário', 'data': {}, 'error': str(e)}), 500
