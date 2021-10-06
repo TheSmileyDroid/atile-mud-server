@@ -14,6 +14,8 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 from mud import models
 
+db.create_all()
+
 import routes
 
 if __name__ == "__main__":
