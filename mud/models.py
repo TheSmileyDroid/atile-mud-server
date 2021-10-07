@@ -1,13 +1,22 @@
 from atile import db, ma
+from werkzeug.security import generate_password_hash
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
 
-    def __init__(self, email, password):
+    @property
+    def unhashed_password(self):
+        raise AttributeError('Cannot view unhashed password!')
+
+    @unhashed_password.setter
+    def unhashed_password(self, unhashed_password):
+        self.password = generate_password_hash(unhashed_password)
+
+    def __init__(self, email, unhashed_password):
         self.email = email
-        self.password = password
+        self.unhashed_password = unhashed_password
     
     def dict(self):
         return {
