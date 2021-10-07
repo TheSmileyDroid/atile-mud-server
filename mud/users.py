@@ -29,7 +29,7 @@ def post_user():
     email = request.json['email']
     password = request.json['password']
     pass_hash = generate_password_hash(password)
-    user = User(email, pass_hash)
+    user = User(email=email, password=pass_hash.encode("utf-8", "ignore"))
     try:
         db.session.add(user)
         db.session.commit()
