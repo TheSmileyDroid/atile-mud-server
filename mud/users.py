@@ -26,8 +26,10 @@ def get_user(id):
     return jsonify({'message': 'Usuário encontrado', 'data': result}), 201
 
 def post_user():
+    password = request.json['senha']
     email = request.json['email']
-    password = request.json['password']
+    if user_by_email(email) is not None:
+        return jsonify({'message': 'Não foi possível criar o usuário', 'data': {}, 'error': 'Usuário já existe'}), 401
     user = User(email=email, unhashed_password=password)
     try:
         db.session.add(user)
@@ -35,7 +37,7 @@ def post_user():
         result = user_schema.dump(user)
         return jsonify({'message': 'Criado com sucesso', 'data': result}), 201
     except Exception as e:
-        return jsonify({'message': 'Não foi possível criar o usuário', 'data': {}, 'error': str(e)}), 500
+        return jsonify({'message': 'Não foi possível criar o usuário', 'data': {}, 'error': str(e)}), 401
 
 def update_user(id):
     email = request.json['email']
